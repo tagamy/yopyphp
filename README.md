@@ -1,6 +1,10 @@
 yopyphp
 =======
-ぼくのオレオレフレームワークだよ
+my private framework.
+
+history
+-------
+ - 1.0.0:  first public version.
 
 example
 -------
