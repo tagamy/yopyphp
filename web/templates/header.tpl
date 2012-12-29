@@ -31,9 +31,9 @@
 <ul class="nav secondary-nav">
 {if $login}  
   <li>
-  <a href="http://twitter.com/{$login.twitter.screen_name}" target="_blank">
-  <img src="http://api.twitter.com/1/users/profile_image?screen_name={$login.twitter.screen_name}&size=mini" style="vertical-align:middle;">
-  @{$login.twitter.screen_name}
+  <a href="http://twitter.com/{$login.screen_name}" target="_blank">
+  <img src="http://api.twitter.com/1/users/profile_image?screen_name={$login.screen_name}&size=mini" style="vertical-align:middle;">
+  @{$login.screen_name}
   </a>
   </li>
 {else}

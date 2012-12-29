@@ -1,8 +1,9 @@
 <?php
 
-class Control {
+class Control
+{
 
-    static function factory($mode, $params) {
+    function factory($mode, $params) {
 
         if (empty($mode)) {
             $mode = "index";
@@ -23,8 +24,7 @@ class Control {
         $obj->acl  = $acl;
 
         return $obj;
-
-
+    
     }
     
 }

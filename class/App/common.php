@@ -8,7 +8,8 @@
 
 require_once 'base.php';
 
-class App_common extends App_base {
+class App_common extends App_base
+{
 
     var $smarty;
     var $mode;
@@ -22,68 +23,24 @@ class App_common extends App_base {
     var $error;
     var $success;
 
-    function __construct() {
+    function __construct()
+    {
         
         parent::__construct();
-        $this->smarty->registerPlugin("modifier", "rank_name", array($this, "getRankName"));
         
     }
 
 
-    function exec() {
+    function exec()
+    {
         parent::exec();
     }
 
 
-    function getRankName($rank) {
-
-        switch ($rank) {
-
-        case 0:
-            $name = "未評価";
-            break;
-        case 1:
-            $name = "★";
-            break;
-        case 2:
-            $name = "★★";
-            break;
-        case 3:
-            $name = "★★★";
-            break;
-        case 4:
-            $name = "★★★★";
-            break;
-        case 5:
-            $name = "★★★★★";
-            break;
-
-        default:
-            $name = "";
-        }
-
-        return $name;
-        
-    }
 
 
-
-    function getYears() {
-        
-        $rows = array();
-        $start = (int)date('Y');
-
-        for ($y = $start; $y > 1900; $y--) {
-            $rows[] = $y;
-        }
-
-        return $rows;
-
-    }
-
-
-
-    function getPager($base_url, $total, $page, $perpage) {
+    function getPager($base_url, $total, $page, $perpage)
+    {
 
         $maxpage = ceil($total / $perpage);
 
@@ -149,7 +106,4 @@ class App_common extends App_base {
 
     }
 
-
 }
-
-?>

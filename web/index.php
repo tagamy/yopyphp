@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } 
  }
 
-$app = Control::factory($mode, $params);
+$ctrl = new Control();
+$app = $ctrl->factory($mode, $params);
 $app->exec();
 exit;
 
-?>
