@@ -19,4 +19,3 @@ define('DEBUG', 1);
 
 $is_maintenance = 0;
 
-?>
