@@ -1,81 +1,96 @@
 <?php
 
-require_once 'MySocials/Twitter.php'; 
+require_once 'common.php'; 
 
-class App_login_twitter extends App_login
+class App_oath extends App_common
 {
 
     var $model;
-    var $tw;
 
     function exec() 
     {
 
-        app_common::exec();
+        parent::exec();
         $this->model = $this->connectMaster();
-            
-        $this->tw = new MySocials_Twitter();
 
-        if ($_REQUEST) {
-
-            $twitter = $this->callback();
-            if ($twitter) {
-                $this->login($twitter);
+        
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $oath = $this->getOath();
+            if ($oath) {
+                $this->setOath($oath);
             }
-
         }
         else {
-            $this->authorize();
+            $oath = $this->getOath();
         }
-        
+
+        $this->smarty->assign('oath', $oath);
+
+
         $this->show();
         
     }
 
 
-    function authorize() 
+    function getOath()
     {
 
-        $callback = SITE_URL . 'login/twitter';
+        $twitter = $_SESSION['twitter'];
 
-        try {
-            $this->tw->authorize($callback);
-        } catch (Exception $e) {
-            $this->error = $e->getMessage();
+        if (empty($twitter)) {
+            $this->error = "認証情報がありません。";
             return false;
         }
+
+        $user_id = $twitter['user_id'];
+
+        $user = $this->getUser($user_id);
+
+        if ($user) {
+            $this->error = "すでに契約済みです。";
+            return false;
+        }
+
+        
+        $chk = $this->checkOath();
+        
+        if ($chk) {
+            $this->error = "すでに他のマスターと契約済みです。";
+            return false;
+        }
+
+        return $twitter;
+        
 
     }
 
-    
-    function callback() 
-    {
-        
-        try {
-            $body = $this->tw->callback();
-        } catch (Exception $e) {
-            $this->error = $e->getMessage();
-            return false;
-        }
-        
-        $access_token = $body['oauth_token'];
-        $secret_token = $body['oauth_token_secret'];
-        $user_id      = $body['user_id'];
-        $screen_name  = $body['screen_name'];
 
-        if (empty($access_token) || empty($secret_token)) {
-            $this->error  = "アクセストークンを取得できませんでした。";
-            return false;
-        }
 
-        if (empty($user_id) || empty($screen_name)) {
-            $this->error = "アカウント情報を取得できませんでした。";
+    function setOath($oath) {
+
+
+        $user_id     = $oath['user_id'];
+        $screen_name = $oath['screen_name'];
+        $authority   = 1;
+
+        $sql  = "INSERT INTO user (user_id, screen_name, authority, create_on) ";
+        $sql .= "VALUES (?, ?, ?, now())";
+
+        $this->model->query($sql, array($user_id, $screen_name, $authority));
+
+        $user = $this->getUser($user_id);
+
+        if (empty($user)) {
+            $this->error = "契約に失敗しました。";
             return false;
         }
 
-        return $body;
+        $_SESSION['login'] = $user;
+        $url = "/";
+        $this->redirect($url);
 
     }
+
 
 
     function login($twitter)

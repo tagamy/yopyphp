@@ -2,15 +2,16 @@
 
 require_once 'App/common.php';
 
-class App_index extends App_common {
+class App_index extends App_common
+{
  
-    function exec() {
+    function exec()
+    {
         
         parent::exec();
+
         $this->show();
 
     }
 
 }
-
-?>
