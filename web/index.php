@@ -2,7 +2,11 @@
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-require_once '../conf/config.php';
+if (is_readable('/etc/yopyphp/config.php')) {
+    require_once '/etc/yopyphp/config.php';
+ } else {
+    require_once '../conf/config.php';
+ }
 require_once 'init.php';
 require_once 'Control.php';
 
