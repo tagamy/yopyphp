@@ -2,53 +2,61 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <title>yopyphp</title>
-<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" media="screen" /> 
-<script src="/js/jquery-1.6.2.min.js"></script>
-<script src="/js/application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" type="text/css">
+<style type="text/css">
+body { 
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+</style>
+<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-responsive.min.css" type="text/css"> 
+<link rel="stylesheet" href="/assets/yopyphp/css/style.css" type="text/css">
 </head>
 <body>
 
-<div class="topbar">
-<div class="fill">
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner">
 <div class="container">
-  <h3><a href="/">yopyphp</a></h3>
-  <ul>
-    <li><a href="#">page1</a></li>
-    <li><a href="#">page2</a></li>
-    <li><a href="#">page3</a></li>
-
-    <li class="menu">
-    <a href="#" class="menu">その他</a>
-    <ul class="menu-dropdown">
-      <li><a href="#">page4</a></li>
-      <li><a href="#">page5</a></li>
-    </ul>
-  </li>
-</ul>
-
-<ul class="nav secondary-nav">
-{if $login}  
-  <li>
-  <a href="http://twitter.com/{$login.screen_name}" target="_blank">
-  <img src="http://api.twitter.com/1/users/profile_image?screen_name={$login.screen_name}&size=mini" style="vertical-align:middle;">
-  @{$login.screen_name}
+  <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
   </a>
-  </li>
-{else}
-  <li><a href="/login/twitter">ログイン</a></li>
-{/if}  
-</ul>
+  <a href="/" class="brand">yopyphp</a>
+<div class="nav-collapse">
+  <ul class="nav">
+    <li><a href="/blog">blog</a></li>
+  </ul>  
+  <ul class="nav pull-right">
+    {if $login}  
+    <li>
+    <a href="http://twitter.com/{$login.screen_name}" target="_blank">
+    <img src="http://api.twitter.com/1/users/profile_image?screen_name={$login.screen_name}&size=mini" style="vertical-align:middle;">
+    @{$login.screen_name}
+    </a>
+    </li>
+    <li>
+    <a href="/logout">logout</a>
+    </li>
+    {else}
+    <li><a href="/login/twitter">login</a></li>
+    {/if}  
+  </ul>
+</div>
+</div>
 
 </div>
 </div>
-</div>
 
-<div class="container" style="padding-top:50px;">
+
+<div class="container">
 
 <div class="row">
-<div class="columns span16">
+<div class="span16">
 
 {if $error}
 <div class="alert-message block-message error">
@@ -68,12 +76,12 @@
 {/if}
 
 {if isset($breadcrumbs)}
-<ul class="breadcrumbs">
+<ul class="breadcrumb">
   {foreach from=$breadcrumbs item=breadcrumb}
-  <li>
-  <a href="{$breadcrumb.link}" title="{$breadcrumb.title}">{$breadcrumb.title|strim:100}</a>
   {if !$breadcrumb@last}
-  &gt;
+  <li><a href="{$breadcrumb.link}" title="{$breadcrumb.title}">{$breadcrumb.title}</a> <span class="divider">/</span></li>
+  {else}
+  <li class="active">{$breadcrumb.title}</li>
   {/if}
   </li>
   {/foreach}

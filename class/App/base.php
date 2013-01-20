@@ -30,6 +30,8 @@ class App_base
     var $success;
     var $debug;
 
+    var $breadcrumbs;
+
     function __construct()
     {
         
@@ -86,9 +88,7 @@ class App_base
         $this->smarty->assign('success', $this->success);
         $this->smarty->assign('debug',   $this->debug);
 
-
-        $breadcrumbs = $this->getBreadcrumbs();
-        $this->smarty->assign('breadcrumbs', $breadcrumbs);
+        $this->smarty->assign('breadcrumbs', $this->breadcrumbs);
 
         $html = $this->smarty->fetch($tpl);
 
